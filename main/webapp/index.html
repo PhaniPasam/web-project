@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Water Plant Products</title>
+	<style>
+		body {
+			background-color: #b3d9ff; 
+			background-repeat: no-repeat;
+			background-size: cover;
+			font-family: Arial, sans-serif;
+			padding: 20px;
+		}
+		
+		h1 {
+			color: #003366; /* dark blue */
+			text-align: center;
+			text-shadow: 2px 2px #b3d9ff; /* light blue */
+		}
+		
+		table {
+			background-color: white;
+			border-collapse: collapse;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+			margin: 20px auto;
+			width: 80%;
+		}
+		
+		th, td {
+			border: 1px solid #003366; /* dark blue */
+			padding: 10px;
+			text-align: center;
+		}
+		
+		th {
+			background-color: #003366; /* dark blue */
+			color: white;
+			text-shadow: 1px 1px #b3d9ff; /* light blue */
+		}
+		
+		tr:nth-child(even) {
+			background-color: #b3d9ff; /* light blue */
+		}
+		
+		tr:nth-child(odd) {
+			background-color: #e6f2ff; /* lightest blue */
+		}
+	</style>
+	
+</head>
+	
+	<body>
+  <h1>WATER PRICES</h1>
+  <table id="my-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Item</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+	<script>
+    function loadXMLTable(xmlFile) {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          var xmlDoc = xhr.responseXML;
+          var tableBody = document.querySelector('#my-table tbody');
+          var rows = xmlDoc.getElementsByTagName('row');
+          for (var i = 0; i < rows.length; i++) {
+            var row = document.createElement('tr');
+            var columns = rows[i].getElementsByTagName('column');
+            for (var j = 0; j < columns.length; j++) {
+              var cell = document.createElement('td');
+              cell.textContent = columns[j].textContent;
+              row.appendChild(cell);
+            }
+            tableBody.appendChild(row);
+          }
+        }
+      };
+      xhr.open('GET', xmlFile, true);
+      xhr.send();
+    }
+    loadXMLTable('products.xml');
+  </script>
+  </body>
+</html>
+				
